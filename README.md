@@ -1,2 +1,2 @@
 # NightQuest
-Website for NightQwest organization and conduct 
+В данном проекте будет реализован сайт для мероприятия NightQuest. Данный проект разрабатывает в рамках курса "Web-технологии"
