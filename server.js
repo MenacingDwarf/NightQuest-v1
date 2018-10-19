@@ -3,9 +3,10 @@ var path = require('path');
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-var nickname = "Noname"
 var puzzle = {
-	nickname: nickname
+	nickname: "Noname",
+	title: "Странный памятник",
+	html: "/puzzles/1.html"
 }
 
 server = express();
@@ -17,12 +18,17 @@ server.get('/',function(req,res){
 });
 
 server.get('/puzzle',function(req,res){
+	console.log(puzzle.nickname+" started quest");
 	res.render('puzzle', {puzzle: JSON.stringify(puzzle)});
 });
 
 server.post('/register/', urlencodedParser, function (req, res) {
+	req.body.nickname == "" ? puzzle.nickname = "Noname" : puzzle.nickname = req.body.nickname;
 	res.redirect('/puzzle');
-	nickname = req.body.nickname;
+})
+
+server.post('/check_code/', urlencodedParser, function (req, res) {
+	res.redirect('/puzzle');
 })
 
 server.listen(8080,

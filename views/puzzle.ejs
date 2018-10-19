@@ -6,32 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Текущая загадка</title>
+    <% Puzzle = JSON.parse(puzzle); %>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="puzzle-style.css">
+    <link rel="import" href=<%= Puzzle.html %> >
 </head>
-<body>
-	<% Puzzle = JSON.parse(puzzle); %>
-	<div class="container-fluid header">
-		<div class="col col-4 logo">
-
-		</div>
-		<div class="col col-8 description">
-			
-		</div>
-	</div>
+<body>	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
+		  <img class="navbar-brand ml-2" src="https://b-i.forbesimg.com/afontevecchia/files/2013/10/NQ_Live_Hdr_Logo.png" style="width: 5rem;">
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav">
+		      <li class="nav-item active">
+		        <a class="nav-link h6" href="#">Задание <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link h6" href="#">Таблица результатов</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link h6" href="#">Сдаться</a>
+		      </li>
+		    </ul>
+		  </div>
+		  <div class="float-right text-white font-italic">Добро пожаловать, <%= Puzzle.nickname %></div>
+	</nav>
 	<div class="container">
 		<div class="row">
-			<div class="col col-4 menu">
-				<ul class="menu-list">
-					<li>Текущая загадка</li>
-					<li>Таблица результатов</li>
-					<li>Сдаться</li>
-				</ul>
+			<div class="col col-3 menu">
+				<form action="/check_code/" method="post">
+					<div class="form-group">
+    					<label for="code-field">Поле для ввода кодов:</label>
+				    	<input type="text" class="form-control" id="code-field" name="code" placeholder="Введите найденный код">
+				    	<small class="form-text text-muted">Не более 1 попытки за 2 с</small>
+				  	</div>
+				  	<button type="submit" class="btn btn-primary">Проверить</button>
+				</form>
 			</div>
-			<div class="col col-8">
+			<div class="col col-9 text-center" id="puzzle">
+				<h1><%= Puzzle.title %></h1>
+				<div id="puzzle-text"></div>
 			</div>
 		</div>
 	</div>
+	<script>
+      	var link = document.querySelector('link[rel=import]');
+      	var content = link.import.querySelector('.puzzle');
+      	document.getElementById("puzzle-text").appendChild(content.cloneNode(true));
+   	</script>
 </body>
 </html>
