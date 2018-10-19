@@ -1,0 +1,25 @@
+.center {
+	text-align: center;
+    top: 60%;
+    left: 50%;
+    width: 30%;
+    height: 30%;
+    position: absolute; 
+    margin-top: -15%; 
+    margin-left: -15%; 
+}
+
+body {
+	background: url(https://www.film.ru/sites/default/files/styles/epsa_1024x450/public/34279270-1011426.jpg) 100% 100% rgba(0,0,0,0.5) no-repeat;
+	background-size: cover;
+	background-position: 50% 0;
+	opacity:0.8;
+	-moz-opacity:0.8;
+	filter: alpha(opacity=80) black;
+	-khtml-opacity: 0.8;
+	background-color:#000;
+}
+
+.form-control {
+	margin-bottom: 10px;
+}

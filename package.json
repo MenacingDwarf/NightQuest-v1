@@ -1,0 +1,24 @@
+{
+  "name": "nightquest",
+  "version": "1.0.0",
+  "description": "В данном проекте будет реализован сайт для мероприятия NightQuest. Данный проект разрабатывает в рамках курса \"Web-технологии\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MenacingDwarf/NightQuest.git"
+  },
+  "author": "MenacingDwarf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MenacingDwarf/NightQuest/issues"
+  },
+  "homepage": "https://github.com/MenacingDwarf/NightQuest#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "pusher": "^2.1.3"
+  }
+}
