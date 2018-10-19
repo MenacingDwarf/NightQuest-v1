@@ -43,12 +43,20 @@
 				    	<input type="text" class="form-control" id="code-field" name="code" placeholder="Введите найденный код">
 				    	<small class="form-text text-muted">Не более 1 попытки за 2 с</small>
 				  	</div>
-				  	<button type="submit" class="btn btn-primary">Проверить</button>
+				  	<button type="submit" class="btn btn-primary mb-2">Проверить</button>
+				  	<div id="codes">
+						На уровне <span id="codes-num"><%= Puzzle.codes_num %></span> секторов:
+					</div>
+					<span id="answers" class="invisible"><%= Puzzle.answers %></span>
+					<span id="code-message" class="invisible"><%= message %></span>
 				</form>
 			</div>
-			<div class="col col-9 text-center" id="puzzle">
-				<h1><%= Puzzle.title %></h1>
-				<div id="puzzle-text"></div>
+			<div class="col col-9">
+				<div class="text-center mb-2" id="puzzle-description">
+					<h1><%= Puzzle.title %></h1>
+					<div id="puzzle-text"></div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -57,5 +65,9 @@
       	var content = link.import.querySelector('.puzzle');
       	document.getElementById("puzzle-text").appendChild(content.cloneNode(true));
    	</script>
+   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+   	<script src="puzzle-script.js"></script>
 </body>
 </html>
