@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="puzzle-style.css">
     <link rel="import" href=<%= Puzzle.html %> >
 </head>
-<body>	
+<body class="bg-light">	
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
 		  <img class="navbar-brand ml-2" src="https://b-i.forbesimg.com/afontevecchia/files/2013/10/NQ_Live_Hdr_Logo.png" style="width: 5rem;">
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,8 +21,15 @@
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarNav">
 		    <ul class="navbar-nav">
-		      <li class="nav-item active">
-		        <a class="nav-link h6" href="#">Задание <span class="sr-only">(current)</span></a>
+		   	  <li class="nav-item dropdown active">
+		        <a class="nav-link dropdown-toggle h6" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Задания
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/puzzle">Основное задание<span class="sr-only">(current)</span></a>
+		          <a class="dropdown-item" href="#">Штабное задание</a>
+		          <a class="dropdown-item disabled" href="#">Бонусное задание</a>
+		        </div>
 		      </li>
 		      <li class="nav-item">
 		        <a class="nav-link h6" href="#">Таблица результатов</a>
@@ -36,20 +43,24 @@
 	</nav>
 	<div class="container">
 		<div class="row">
-			<div class="col col-3 menu">
+			<div class="col col-3" id="menu">
 				<form action="/check_code/" method="post">
 					<div class="form-group">
-    					<label for="code-field">Поле для ввода кодов:</label>
+	    				<label for="code-field">Поле для ввода кодов:</label>
 				    	<input type="text" class="form-control" id="code-field" name="code" placeholder="Введите найденный код">
-				    	<small class="form-text text-muted">Не более 1 попытки за 2 с</small>
+				    	<small class="form-text text-secondary">Не более 1 попытки за 2 с</small>
 				  	</div>
 				  	<button type="submit" class="btn btn-primary mb-2">Проверить</button>
-				  	<div id="codes">
-						На уровне <span id="codes-num"><%= Puzzle.codes_num %></span> секторов:
-					</div>
-					<span id="answers" class="invisible"><%= Puzzle.answers %></span>
-					<span id="code-message" class="invisible"><%= message %></span>
 				</form>
+				<div id="codes" class="mb-2">
+					На уровне <span id="codes-num"><%= Puzzle.codes_num %></span> секторов:
+				</div>
+				<div class="alert alert-warning" role="alert">
+					Автопереход через: <span id="skip-time"><%= Puzzle.skip_time %></span>
+				</div>
+
+				<span id="answers" class="invisible"><%= Puzzle.answers %></span>
+				<span id="code-message" class="invisible"><%= message %></span>
 			</div>
 			<div class="col col-9">
 				<div class="text-center mb-2" id="puzzle-description">

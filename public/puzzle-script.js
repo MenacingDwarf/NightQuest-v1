@@ -2,8 +2,14 @@ var num = Number(document.getElementById("codes-num").innerHTML);
 var codes = document.getElementById("codes");
 var answers = document.getElementById("answers").innerHTML.split(',');
 var message = document.getElementById("code-message").innerHTML;
+var skipTimer = document.getElementById("skip-time").innerHTML;
 
-if (message != "") alert(document.getElementById("code-message").innerHTML);
+if (message != ""){
+	var alert = document.createElement('div');
+	message == "Код введён верно" ? alert.className = 'alert alert-success' : alert.className = 'alert alert-danger';
+	alert.innerHTML = message;
+	document.getElementById("menu").insertBefore(alert,document.getElementById("codes"));
+}
 
 for (i = 0; i<num; i++) {
 	var code = document.createElement('div');
@@ -17,4 +23,34 @@ for (i = 0; i<num; i++) {
 		code.className = 'text-success';
 	}
 	codes.appendChild(code);
+}
+
+startTimer();
+function startTimer(){
+	var arr = skipTimer.split(':');
+	var hours = arr[0];
+	var minutes = arr[1];
+	var seconds = arr[2];
+	if (hours == 0 && minutes == 0 && seconds == 0){
+		alert("Your time left");
+		return;
+	}
+	else seconds -= 1;
+	if (Number.parseInt(seconds) == -1) {
+		minutes -= 1;
+		seconds = "59";
+	}
+	if (Number.parseInt(minutes) == -1) {
+		hours -= 1;
+		minutes = "59";
+	}
+	skipTimer = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+	document.getElementById("skip-time").innerHTML = skipTimer;
+	setTimeout(startTimer, 1000);
+}
+
+function formatTime(time){
+	time = Number.parseInt(time);
+	if (time < 10) return "0" + time
+	else return time
 }

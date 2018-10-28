@@ -1,9 +1,10 @@
 var puzzle = {
 	nickname: "Noname",
 	title: "Странный памятник",
-	html: "/puzzles/1.html",
+	html: "puzzles/1.html",
 	codes_num: 5,
-	answers: ["none","none","none","none","none"]
+	answers: ["none","none","none","none","none"],
+	skip_time: "02:00:00"
 }
 
 var answers = ["ans1","ans2","ans3","ans4","ans5"]
