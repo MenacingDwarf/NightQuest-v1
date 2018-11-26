@@ -7,7 +7,13 @@ var puzzle = {
 	skip_time: "02:00:00"
 }
 
-var answers = ["ans1","ans2","ans3","ans4","ans5"]
+var message = "";
+
+var get_answers = function(puzzle_id) {
+	return ["ans1","ans2","ans3","ans4","ans5"]
+}
+
+var answers = get_answers(0);
 
 var check_code = function(code) {
 	for (i = 0; i<puzzle.codes_num; i++)
@@ -25,3 +31,4 @@ var register = function (nickname) {
 module.exports.puzzle = puzzle;
 module.exports.check = check_code;
 module.exports.register = register;
+module.exports.message = message;
