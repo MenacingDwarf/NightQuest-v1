@@ -6,8 +6,14 @@ var skipTimer = document.getElementById("skip-time").innerHTML;
 
 if (message != ""){
 	var alert = document.createElement('div');
-	message == "Код введён верно" ? alert.className = 'alert alert-success' : alert.className = 'alert alert-danger';
-	alert.innerHTML = message;
+	if (message == "Right answer") {
+		alert.className = 'alert alert-success';
+		alert.innerHTML = "Код введён верно";
+	} 
+	else {
+		alert.className = 'alert alert-danger';
+		alert.innerHTML = "Код введён не верно";
+	}
 	document.getElementById("menu").insertBefore(alert,document.getElementById("codes"));
 }
 
@@ -32,7 +38,7 @@ function startTimer(){
 	var minutes = arr[1];
 	var seconds = arr[2];
 	if (hours == 0 && minutes == 0 && seconds == 0){
-		alert("Your time left");
+		location.reload();
 		return;
 	}
 	else seconds -= 1;
