@@ -8,10 +8,10 @@ for (var i=0; i<stats.length; i++) {
 	td.innerHTML = i+1;
 	line.appendChild(td);
 	var td = document.createElement('td');
-	td.innerHTML = stats[i].login;
+	td.innerHTML = stats[i].nickname;
 	line.appendChild(td);
 	var td = document.createElement('td');
-	td.innerHTML = stats[i].summary_time;
+	td.innerHTML = stats[i].summary_fine;
 	line.appendChild(td);
 	var td = document.createElement('td');
 	td.innerHTML = stats[i].puzzles_done;

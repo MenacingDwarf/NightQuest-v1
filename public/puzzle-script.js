@@ -31,7 +31,7 @@ for (i = 0; i<num; i++) {
 	codes.appendChild(code);
 }
 
-startTimer();
+if (skipTimer != '00:00:00') startTimer();
 function startTimer(){
 	var arr = skipTimer.split(':');
 	var hours = arr[0];

@@ -1,10 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2018-11-10 07:27:54.759
+-- Last modification date: 2018-12-01 10:04:30.454
 
 -- tables
 -- Table: answer
 CREATE TABLE answer (
-    answer_id int  NOT NULL,
+    answer_id serial  NOT NULL,
     puzzle_id int  NOT NULL,
     value varchar(20)  NOT NULL,
     CONSTRAINT answer_pk PRIMARY KEY (answer_id)
@@ -12,38 +12,37 @@ CREATE TABLE answer (
 
 -- Table: hint
 CREATE TABLE hint (
-    hint_id int  NOT NULL,
+    hint_id serial  NOT NULL,
     puzzle_id int  NOT NULL,
-    fine time  NOT NULL,
-    html text  NOT NULL,
-    open_time time  NOT NULL,
+    fine_minutes int  NOT NULL,
+    open_minutes int  NOT NULL,
+    html varchar(50)  NOT NULL,
     CONSTRAINT hint_pk PRIMARY KEY (hint_id)
 );
 
 -- Table: puzzle
 CREATE TABLE puzzle (
-    puzzle_id int  NOT NULL,
+    puzzle_id serial  NOT NULL,
     quest_id int  NOT NULL,
     title varchar(50)  NOT NULL,
-    html text  NOT NULL,
-    autoskip_time time  NOT NULL,
+    html varchar(50)  NOT NULL,
+    autoskip_minutes int  NOT NULL,
     CONSTRAINT puzzle_pk PRIMARY KEY (puzzle_id)
 );
 
 -- Table: quest
 CREATE TABLE quest (
-    quest_id int  NOT NULL,
+    quest_id serial  NOT NULL,
+    owner int  NOT NULL,
     title varchar(50)  NOT NULL,
     start_date timestamp  NOT NULL,
-    owner_id int  NOT NULL,
     CONSTRAINT quest_pk PRIMARY KEY (quest_id)
 );
 
 -- Table: user
 CREATE TABLE "user" (
-    user_id int  NOT NULL,
-    login varchar(50)  NOT NULL,
-    password varchar(50)  NOT NULL,
+    user_id serial  NOT NULL,
+    nickname varchar(50)  NOT NULL,
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );
 
@@ -63,6 +62,14 @@ CREATE TABLE user_hint (
     CONSTRAINT user_hint_pk PRIMARY KEY (user_id,hint_id)
 );
 
+-- Table: user_puzzle
+CREATE TABLE user_puzzle (
+    puzzle_id int  NOT NULL,
+    user_id int  NOT NULL,
+    time time  NOT NULL,
+    CONSTRAINT user_puzzle_pk PRIMARY KEY (puzzle_id)
+);
+
 -- Table: user_quest
 CREATE TABLE user_quest (
     user_id int  NOT NULL,
@@ -70,7 +77,7 @@ CREATE TABLE user_quest (
     current_puzzle_id int  NOT NULL,
     current_puzzle_time timestamp  NOT NULL,
     puzzles_done int  NOT NULL,
-    summary_time time  NOT NULL,
+    summary_fine int  NOT NULL,
     CONSTRAINT user_quest_pk PRIMARY KEY (user_id,quest_id)
 );
 
@@ -99,9 +106,9 @@ ALTER TABLE puzzle ADD CONSTRAINT puzzle_quest
     INITIALLY IMMEDIATE
 ;
 
--- Reference: quest_owner (table: quest)
-ALTER TABLE quest ADD CONSTRAINT quest_owner
-    FOREIGN KEY (owner_id)
+-- Reference: quest_user (table: quest)
+ALTER TABLE quest ADD CONSTRAINT quest_user
+    FOREIGN KEY (owner)
     REFERENCES "user" (user_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
@@ -139,10 +146,18 @@ ALTER TABLE user_hint ADD CONSTRAINT user_hint_user
     INITIALLY IMMEDIATE
 ;
 
--- Reference: user_quest_puzzle (table: user_quest)
-ALTER TABLE user_quest ADD CONSTRAINT user_quest_puzzle
-    FOREIGN KEY (current_puzzle_id)
+-- Reference: user_puzzle_puzzle (table: user_puzzle)
+ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_puzzle
+    FOREIGN KEY (puzzle_id)
     REFERENCES puzzle (puzzle_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: user_puzzle_user (table: user_puzzle)
+ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_user
+    FOREIGN KEY (user_id)
+    REFERENCES "user" (user_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;

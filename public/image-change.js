@@ -8,3 +8,7 @@ function foo() {
  setTimeout ("foo()",5000);
 }
 foo();
+
+if (document.getElementById("msg").innerHTML == "undefined user") {
+	alert('Пользователь не зарегистрирован');
+}
