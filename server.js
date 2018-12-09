@@ -188,7 +188,7 @@ server.get('/statistics', function(req,res){
 	});
 });
 
-server.post('/register/', urlencodedParser, function (req, res) {
+server.post('/login/', urlencodedParser, function (req, res) {
 	const bcrypt = require('bcrypt');
 	var cookies = new Cookies(req,res);
 	pool.query("SELECT nickname,password from user_quest,\"user\" WHERE nickname = $1 AND \"user\".user_id = user_quest.user_id",[req.body.nickname],(err,res1) => {
@@ -210,6 +210,39 @@ server.post('/register/', urlencodedParser, function (req, res) {
 			});
 		}
 	});
+})
+
+server.post('/register/', urlencodedParser, function (req, res) {
+	const bcrypt = require('bcrypt');
+	var cookies = new Cookies(req,res);
+	pool.query("SELECT nickname from user_quest,\"user\" WHERE nickname = $1 AND \"user\".user_id = user_quest.user_id",[req.body.nickname],(err,res1) => {
+		if (res1.rows.length != 0) {
+			cookies.set('message','already registered');
+			res.redirect('/');
+		}
+		else {
+			pool.query('SELECT puzzle_id FROM puzzle WHERE puzzle_id NOT IN (SELECT current_puzzle_id FROM user_quest)',(err,free) => {
+				if (free.rows.length < 2) {
+					cookies.set('message','no places');
+					res.redirect('/');
+				}
+				else {
+					var new_id = free.rows[Math.floor(Math.random() * free.rows.length)].puzzle_id;
+					bcrypt.hash(req.body.password,Math.floor(Math.random() * 10),(err,hash)=>{
+						const add_user_puzzle = async()=>{ 
+							await pool.query('INSERT INTO \"user\" VALUES(DEFAULT,$1,$2)',[req.body.nickname,hash]);
+							await pool.query('SELECT user_id,start_date FROM \"user\",quest WHERE nickname=$1',[req.body.nickname],(err,info)=>{
+								pool.query('INSERT INTO user_quest VALUES($1,1,$2,$3,0)',[info.rows[0].user_id,new_id,info.rows[0].start_date]);
+							})
+							await cookies.set('message','registered');
+							await res.redirect('/');
+						}
+						add_user_puzzle();
+					})
+				}
+			})
+		}
+	})
 })
 
 server.post('/check_code/', urlencodedParser, function (req, res1) {

@@ -1,12 +1,4 @@
 BEGIN;
-INSERT INTO "user"
-VALUES (DEFAULT,'MenacingDwarf','$2b$04$n80dEjCWRMivBMBw1CiW4OmtOCc19Kc4VqrNxoHUKgOLnDE7P8p2.');
-INSERT INTO "user"
-VALUES (DEFAULT,'Vasya','$2b$05$ZSWaBwMt/FlSeHcyQVKlne9J5X6Qf58D7XAOOF4tQLqAlUnEeOx5K');
-INSERT INTO "user"
-VALUES (DEFAULT,'Petya','$2b$04$lJlo4zvesxW8EYkOgg5rZu2YaERg3eet6fERNPM4aj.aL0qhsa8ae');
-COMMIT;
-
 INSERT INTO "quest"
 VALUES (DEFAULT,1,'Night Quest','04-12-18 12:00:00');
 COMMIT;
@@ -66,11 +58,6 @@ INSERT INTO "hint"
 VALUES (DEFAULT,1,5,15,'very useful hint');
 INSERT INTO "hint"
 VALUES (DEFAULT,2,0,10,'very useful hint');
-
-INSERT INTO "user_quest"
-VALUES (2,1,1,'04-12-18 12:00:00',0);
-INSERT INTO "user_quest"
-VALUES (3,1,2,'04-12-18 12:00:00',0);
 COMMIT;
 
 

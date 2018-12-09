@@ -1,30 +1,30 @@
-/*var tick = 1;
-function foo() {
- var banner= Array('https://www.film.ru/sites/default/files/styles/epsa_1024x450/public/34279270-1011426.jpg', 
- 	'https://cs8.pikabu.ru/post_img/big/2017/12/19/10/1513702343138630971.jpg', 
- 	'http://myhdwallpapers.org/wp-content/uploads/2018/02/Superb-Nature-Night-Stars-Man-Winter.jpg');
- document.body.style.backgroundImage = 'url("' + banner[tick-1] + '")';
- tick = tick%banner.length+1
- setTimeout ("foo()",5000);
-}
-foo();*/
-
 if (document.getElementById("msg").innerHTML == "undefined user") {
-	alert('Пользователь не зарегистрирован');
+	alert('Пользователь не зарегистрирован!');
 }
 else if (document.getElementById("msg").innerHTML == "wrong password") {
-	alert('Неправильный пароль');
+	alert('Неправильный пароль!');
+}
+else if (document.getElementById("msg").innerHTML == "no places") {
+	alert('Свободных мест нет!');
+}
+else if (document.getElementById("msg").innerHTML == "already registered") {
+	alert('Пользователь с таким логином уже зарегистрирован!');
+}
+else if (document.getElementById("msg").innerHTML == "registered") {
+	alert('Регистрация прошла успешно!');
 }
 
 var start = new Date(document.getElementById("start").innerHTML);
 var now = new Date();
+now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
 var Timer = "00:00:00"
 if (now > start) document.getElementById("submit").removeAttribute('disabled');
 else {
+	document.getElementById("register").removeAttribute('disabled');
 	var ans = new Date(start-now);
 	var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 							
 	var timer = document.createElement("span");
-	timer.innerHTML = rem;
+	timer.innerHTML = 'Начало квеста чере: '+ rem;
 	timer.setAttribute('id','timer');
 	document.getElementById("content").appendChild(timer);
 	Timer = rem;
@@ -50,7 +50,7 @@ function startTimer(){
 		minutes = "59";
 	}
 	Timer = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
-	document.getElementById("timer").innerHTML = Timer;
+	document.getElementById("timer").innerHTML = 'Начало квеста чере: '+ Timer;
 	setTimeout(startTimer, 1000);
 }
 
