@@ -37,6 +37,8 @@ function startTimer(){
 	var seconds = arr[2];
 	if (hours == 0 && minutes == 0 && seconds == 0){
 		document.getElementById("submit").removeAttribute('disabled');
+		document.getElementById("register").setAttribute('disabled','disabled');
+		document.getElementById("content").removeChild(document.getElementById("timer"))
 		return;
 	}
 	else seconds -= 1;
@@ -49,7 +51,7 @@ function startTimer(){
 		minutes = "59";
 	}
 	Timer = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
-	document.getElementById("timer").innerHTML = 'Начало квеста чере: '+ Timer;
+	document.getElementById("timer").innerHTML = 'Начало квеста через: '+ Timer;
 	setTimeout(startTimer, 1000);
 }
 
