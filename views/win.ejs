@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Текущая загадка</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="puzzle-style.css">
+</head>
+<body class="bg-light">	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
+		  <a href="/quit"><img class="navbar-brand ml-2" src="https://b-i.forbesimg.com/afontevecchia/files/2013/10/NQ_Live_Hdr_Logo.png" style="width: 5rem;"></a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav">
+		   	  <li class="nav-item dropdown active">
+		        <a class="nav-link dropdown-toggle h6" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Задания
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/puzzle">Основное задание<span class="sr-only">(current)</span></a>
+		          <a class="dropdown-item" href="#">Штабное задание</a>
+		          <a class="dropdown-item disabled" href="#">Бонусное задание</a>
+		        </div>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link h6" href="/statistics">Таблица результатов</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link h6 disabled" href="">Сдаться</a>
+		      </li>
+		    </ul>
+		  </div>
+		  <div class="float-right text-white font-italic">Добро пожаловать, <%= nickname %></div>
+	</nav>
+	<div class="container">
+		<h1 class="h1 text-center">Похоже вы прошли все этапы, поздравляем! <br> Ждите результатов!</h1>	
+	</div>
+   	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+   	<script src="puzzle-script.js"></script>
+</body>
+</html>

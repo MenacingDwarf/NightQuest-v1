@@ -43,6 +43,7 @@ CREATE TABLE quest (
 CREATE TABLE "user" (
     user_id serial  NOT NULL,
     nickname varchar(50)  NOT NULL,
+    password varchar(100) NOT NULL,
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );
 
@@ -67,7 +68,7 @@ CREATE TABLE user_puzzle (
     puzzle_id int  NOT NULL,
     user_id int  NOT NULL,
     time time  NOT NULL,
-    CONSTRAINT user_puzzle_pk PRIMARY KEY (puzzle_id)
+    CONSTRAINT user_puzzle_pk PRIMARY KEY (user_id,puzzle_id)
 );
 
 -- Table: user_quest
@@ -76,7 +77,6 @@ CREATE TABLE user_quest (
     quest_id int  NOT NULL,
     current_puzzle_id int  NOT NULL,
     current_puzzle_time timestamp  NOT NULL,
-    puzzles_done int  NOT NULL,
     summary_fine int  NOT NULL,
     CONSTRAINT user_quest_pk PRIMARY KEY (user_id,quest_id)
 );

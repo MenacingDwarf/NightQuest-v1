@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/MenacingDwarf/NightQuest#readme",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "cookies": "^0.7.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",

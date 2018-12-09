@@ -12,3 +12,6 @@ foo();
 if (document.getElementById("msg").innerHTML == "undefined user") {
 	alert('Пользователь не зарегистрирован');
 }
+else if (document.getElementById("msg").innerHTML == "wrong password") {
+	alert('Неправильный пароль');
+}
