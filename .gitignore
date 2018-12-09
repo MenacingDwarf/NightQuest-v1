@@ -1,1 +1,5 @@
+
+npm-debug.log
+.DS_Store
+/*.env
 cmd.exe
