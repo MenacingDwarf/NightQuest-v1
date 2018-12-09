@@ -6,11 +6,11 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var message = "";
 const { Pool } = require('pg');
 const pool = new Pool({
-	user: 'bmqdyfqdyhfcxv',
-	password: '1184c6a5ec317b6467153cb5a3bc16dadc498059d39af5e5f82cb62faeca5ed7',
-	host: 'ec2-54-75-231-3.eu-west-1.compute.amazonaws.com',
+	user: 'aavgdgndyqmhtw',
+	password: 'ffcba5c70e3b5afc6c5900a4f4966810bd39323002d830894b4faa00172f79a7',
+	host: 'ec2-54-247-119-167.eu-west-1.compute.amazonaws.com',
 	port: 5432,
-	database: 'd5q612j9avqv2g',
+	database: 'dt404up8a62dd',
 	ssl: true,
 })
 
@@ -23,7 +23,9 @@ server.get('/',function(req,res){
 	var message = cookies.get('message');
 	cookies.set('message','');
 	if (cookies.get('nickname') == undefined) {
-		res.render('start_page', {message: message});
+		pool.query('SELECT start_date FROM quest',(err,info) => {
+			res.render('start_page', {message: message,start: info.rows[0].start_date});
+		})
 	}
     else {
     	res.redirect('/puzzle');
@@ -231,5 +233,5 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.listen(8080,
+server.listen(process.env.PORT,
     () => console.log('Server UP!'));
