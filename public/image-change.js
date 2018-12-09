@@ -16,7 +16,6 @@ else if (document.getElementById("msg").innerHTML == "registered") {
 
 var start = new Date(document.getElementById("start").innerHTML);
 var now = new Date();
-now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
 var Timer = "00:00:00"
 if (now > start) document.getElementById("submit").removeAttribute('disabled');
 else {

@@ -1,4 +1,7 @@
 BEGIN;
+INSERT INTO "user"
+VALUES (DEFAULT,'MenacingDwarf','jndfksdpv');
+COMMIT;
 INSERT INTO "quest"
 VALUES (DEFAULT,1,'Night Quest','04-12-18 12:00:00');
 COMMIT;
