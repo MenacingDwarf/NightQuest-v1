@@ -14,9 +14,8 @@ else if (document.getElementById("msg").innerHTML == "registered") {
 	alert('Регистрация прошла успешно!');
 }
 
-var ans = new Date(document.getElementById("start").innerHTML);
-var ans = new Date();
-var Timer = "00:00:00"
+var rem = new Date(document.getElementById("start").innerHTML);
+var Timer = "00:00:00";
 if (rem == '00:00:00') document.getElementById("submit").removeAttribute('disabled');
 else {
 	document.getElementById("register").removeAttribute('disabled'); 							
