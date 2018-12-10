@@ -14,13 +14,13 @@ else if (document.getElementById("msg").innerHTML == "registered") {
 	alert('Регистрация прошла успешно!');
 }
 
-var rem = new Date(document.getElementById("start").innerHTML);
+var rem = document.getElementById("start").innerHTML;
 var Timer = "00:00:00";
 if (rem == '00:00:00') document.getElementById("submit").removeAttribute('disabled');
 else {
 	document.getElementById("register").removeAttribute('disabled'); 							
 	var timer = document.createElement("span");
-	timer.innerHTML = 'Начало квеста чере: '+ rem;
+	timer.innerHTML = 'Начало квеста через: '+ rem;
 	timer.setAttribute('id','timer');
 	document.getElementById("content").appendChild(timer);
 	Timer = rem;
