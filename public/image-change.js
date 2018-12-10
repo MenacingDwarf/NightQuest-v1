@@ -14,14 +14,12 @@ else if (document.getElementById("msg").innerHTML == "registered") {
 	alert('Регистрация прошла успешно!');
 }
 
-var start = new Date(document.getElementById("start").innerHTML);
-var now = new Date();
+var ans = new Date(document.getElementById("start").innerHTML);
+var ans = new Date();
 var Timer = "00:00:00"
-if (now > start) document.getElementById("submit").removeAttribute('disabled');
+if (rem = '00:00:00') document.getElementById("submit").removeAttribute('disabled');
 else {
-	document.getElementById("register").removeAttribute('disabled');
-	var ans = new Date(start-now);
-	var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 							
+	document.getElementById("register").removeAttribute('disabled'); 							
 	var timer = document.createElement("span");
 	timer.innerHTML = 'Начало квеста чере: '+ rem;
 	timer.setAttribute('id','timer');

@@ -228,11 +228,18 @@ server.post('/register/', urlencodedParser, function (req, res) {
 				}
 				else {
 					var new_id = free.rows[Math.floor(Math.random() * free.rows.length)].puzzle_id;
+					var now = new Date();
+					var rem = "";
+					if (now > start) rem = '00:00:00';
+					else {
+						var ans = new Date(start-now);
+						var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds());
+					}
 					bcrypt.hash(req.body.password,Math.floor(Math.random() * 10),(err,hash)=>{
 						const add_user_puzzle = async()=>{ 
 							await pool.query('INSERT INTO \"user\" VALUES(DEFAULT,$1,$2)',[req.body.nickname,hash]);
 							await pool.query('SELECT user_id,start_date FROM \"user\",quest WHERE nickname=$1',[req.body.nickname],(err,info)=>{
-								pool.query('INSERT INTO user_quest VALUES($1,1,$2,$3,0)',[info.rows[0].user_id,new_id,info.rows[0].start_date]);
+								pool.query('INSERT INTO user_quest VALUES($1,1,$2,$3,0)',[info.rows[0].user_id,new_id,rem]);
 							})
 							await cookies.set('message','registered');
 							await res.redirect('/');
