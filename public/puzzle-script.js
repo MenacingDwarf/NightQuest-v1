@@ -3,7 +3,10 @@ var codes = document.getElementById("codes");
 var answers = document.getElementById("answers").innerHTML.split(',');
 var message = document.getElementById("code-message").innerHTML;
 var skipTimer = document.getElementById("skip-time").innerHTML;
+var message = document.getElementById("code-message").innerHTML;
+var hints = JSON.parse(document.getElementById("hints").innerHTML);
 
+// Вывод сообщения
 if (message != ""){
 	var alert = document.createElement('div');
 	if (message == "Right answer") {
@@ -17,6 +20,7 @@ if (message != ""){
 	document.getElementById("menu").insertBefore(alert,document.getElementById("codes"));
 }
 
+// Вывод секторов с кодами
 for (i = 0; i<num; i++) {
 	var code = document.createElement('div');
 	
@@ -31,6 +35,26 @@ for (i = 0; i<num; i++) {
 	codes.appendChild(code);
 }
 
+// Вывод подсказок
+for (var i = 0; i<hints.length; i++) {
+	var hint = document.createElement('div');
+	var text = "Подсказка "+i+": ";
+
+	if (hints[i].status == "wait") {
+		text += hints[i].val;
+	}
+	else if (hints[i].status == "display") {
+		text += hints[i].val;
+	}
+	else if (hints[i].status == "suggest") {
+		text += "взять за " + hints[i].val + " штрафных минут";
+	}
+
+	hint.innerHTML = text;
+	document.getElementById("hints-sector").appendChild(hint);
+}
+
+// Обработка таймера
 if (skipTimer != '00:00:00') startTimer();
 function startTimer(){
 	var arr = skipTimer.split(':');
