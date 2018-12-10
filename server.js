@@ -23,14 +23,14 @@ server.get('/',function(req,res){
 	var message = cookies.get('message');
 	cookies.set('message','');
 	if (cookies.get('nickname') == undefined) {
-		var now = new Date();
-		var rem = "";
-		if (now > start) rem = '00:00:00';
-		else {
-			var ans = new Date(start-now);
-			var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds());
-		}
+		
 		pool.query('SELECT start_date FROM quest',(err,info) => {
+			var now = new Date();
+			var rem = '00:00:00';
+			if (now < info.rows[0].start_date) {
+				var ans = new Date(info.rows[0].start_date-now);
+				var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds());
+			}
 			res.render('start_page', {message: message,start: rem});
 		})
 	}
