@@ -23,7 +23,6 @@ server.get('/',function(req,res){
 	var message = cookies.get('message');
 	cookies.set('message','');
 	if (cookies.get('nickname') == undefined) {
-		
 		pool.query('SELECT start_date FROM quest',(err,info) => {
 			var now = new Date();
 			var rem = '00:00:00';
