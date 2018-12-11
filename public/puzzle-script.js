@@ -42,11 +42,13 @@ for (var i = 0; i<hints.length; i++) {
 	var text = "Подсказка "+(i+1)+": ";
 
 	if (hints[i].status == "wait") {
+		hint.setAttribute('class','text-danger');
 		text += 'откроется через '+hints[i].val;
 		document.getElementById("hints-sector").appendChild(hint);
 		active_hints.push(hint);
 	}
 	else if (hints[i].status == "display") {
+		hint.setAttribute('class','text-success');
 		text += hints[i].val;
 		document.getElementById("hints-sector").appendChild(hint);
 	}

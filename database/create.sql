@@ -77,7 +77,6 @@ CREATE TABLE user_quest (
     quest_id int  NOT NULL,
     current_puzzle_id int  NOT NULL,
     current_puzzle_time timestamp  NOT NULL,
-    summary_fine int  NOT NULL,
     CONSTRAINT user_quest_pk PRIMARY KEY (user_id,quest_id)
 );
 

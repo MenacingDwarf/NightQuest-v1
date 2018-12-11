@@ -58,9 +58,27 @@ INSERT INTO "answer"
 VALUES (DEFAULT,5,'jwv');
 
 INSERT INTO "hint"
-VALUES (DEFAULT,1,5,15,'very useful hint');
+VALUES (DEFAULT,1,0,15,'С первой картинкой связан стиль, со второй блюдо, с третьей материал, а с четвёртой фамилия');
 INSERT INTO "hint"
-VALUES (DEFAULT,2,0,10,'very useful hint');
+VALUES (DEFAULT,1,15,30,'Этот предмет - шуба! Место - памятник Трезини.');
+INSERT INTO "hint"
+VALUES (DEFAULT,2,0,15,'Проходите этот маршрут на карте');
+INSERT INTO "hint"
+VALUES (DEFAULT,2,15,30,'Кинотеатр Нео');
+INSERT INTO "hint"
+VALUES (DEFAULT,3,0,10,'Если бы на улице не было солнечно, мы бы не смогли узнать время');
+INSERT INTO "hint"
+VALUES (DEFAULT,3,0,20,'Время - это направление');
+INSERT INTO "hint"
+VALUES (DEFAULT,3,15,30,'Улетел дракон, находящийся в одном из дворов');
+INSERT INTO "hint"
+VALUES (DEFAULT,4,0,15,'Речь идёт о транспорте');
+INSERT INTO "hint"
+VALUES (DEFAULT,4,15,30,'Остановка 22-23 линии');
+INSERT INTO "hint"
+VALUES (DEFAULT,5,0,15,'Одно из слов, полученное при прохождении лабиринта не так просто как кажется...');
+INSERT INTO "hint"
+VALUES (DEFAULT,5,15,30,'ВСЕГЕИ - Всероссийский Геологический институт');
 COMMIT;
 
 

@@ -228,12 +228,12 @@ server.get('/puzzle',function(req,res){
 
 server.get('/statistics', function(req,res){
 	var cookies = new Cookies(req,res);
-	pool.query('SELECT nickname,summary_fine,start_date,puzzle.title as puzzle_title, puzzles_done from user_quest, puzzle, quest, \"user\",(SELECT * FROM (SELECT user_id,count(puzzle_id) as puzzles_done FROM user_puzzle GROUP BY user_id) AS T1 UNION ALL (SELECT user_id, 0 as puzzles_done FROM user_quest WHERE user_id NOT IN (SELECT user_id FROM user_puzzle) ) ) pnum WHERE quest.quest_id = user_quest.quest_id AND user_quest.user_id = \"user\".user_id AND \"user\".user_id = pnum.user_id AND user_quest.current_puzzle_id = puzzle.puzzle_id GROUP BY nickname,summary_fine,start_date,puzzle.title,puzzles_done', (err,info) => {
+	pool.query('SELECT nickname,hsum.summary_fine,start_date,puzzle.title as puzzle_title, puzzles_done from user_quest, puzzle, quest, \"user\",(SELECT * FROM (SELECT user_id,count(puzzle_id) as puzzles_done FROM user_puzzle GROUP BY user_id) AS T1 UNION ALL (SELECT user_id, 0 as puzzles_done FROM user_quest WHERE user_id NOT IN (SELECT user_id FROM user_puzzle) ) ) pnum, (SELECT * FROM (SELECT user_id,sum(fine_minutes) as summary_fine FROM user_hint,hint WHERE hint.hint_id = user_hint.hint_id GROUP BY user_id) AS T1 UNION ALL (SELECT user_id,0 as summary_fine FROM user_quest WHERE user_id NOT IN (SELECT user_id FROM user_hint) ) ORDER BY user_id) hsum WHERE quest.quest_id = user_quest.quest_id AND user_quest.user_id = \"user\".user_id AND \"user\".user_id = pnum.user_id AND \"user\".user_id = hsum.user_id AND user_quest.current_puzzle_id = puzzle.puzzle_id GROUP BY nickname,hsum.summary_fine,start_date,puzzle.title,puzzles_done', (err,info) => {
 		pool.query('SELECT title,nickname FROM quest,"user" WHERE user_id = owner',(err,quest) => {
 			for (var i = 0; i<info.rows.length; i++) {
 				var now = new Date();
 				var ans = new Date(now-info.rows[i].start_date);
-				ans.setMinutes(ans.getMinutes()+info.rows[i].summary_fine);
+				ans.setUTCMinutes(ans.getUTCMinutes()+Number(info.rows[i].summary_fine));
 				info.rows[i].summary_fine = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 			}
 			res.render('statistics', {statistics: JSON.stringify(info.rows),nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])});
