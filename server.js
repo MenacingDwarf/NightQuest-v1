@@ -285,7 +285,7 @@ server.post('/register/', urlencodedParser, function (req, res) {
 						const add_user_puzzle = async()=>{ 
 							await pool.query('INSERT INTO \"user\" VALUES(DEFAULT,$1,$2)',[req.body.nickname,hash]);
 							await pool.query('SELECT user_id,start_date FROM \"user\",quest WHERE nickname=$1',[req.body.nickname],(err,info)=>{
-								pool.query('INSERT INTO user_quest VALUES($1,1,$2,$3,0)',[info.rows[0].user_id,new_id,info.rows[0].start_date]);
+								pool.query('INSERT INTO user_quest VALUES($1,1,$2,$3)',[info.rows[0].user_id,new_id,info.rows[0].start_date]);
 							})
 							await cookies.set('message','registered');
 							await res.redirect('/');
