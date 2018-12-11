@@ -73,7 +73,6 @@ server.get('/puzzle',function(req,res){
 										await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[0,inf.rows[0].user_id,now]);	
 										await res.render('win',{nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])});
 									}
-									console.log('WIIIIIIIIIIIIIIIIIIIN!!!!!!'); 
 									add_user_puzzle();
 								}
 								else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
@@ -110,9 +109,9 @@ server.get('/puzzle',function(req,res){
 							});
 						});
 					else {
-						var now = new Date(); 
+						var now = new Date();
 						var end = info.rows[0].current_puzzle_time; 
-						end.setMinutes(end.getMinutes()+info.rows[0].autoskip_minutes); 
+						end.setMinutes(end.getMinutes()+info.rows[0].autoskip_minutes);
 						var ans = new Date(end-now); 
 						var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 						if (ans.getUTCFullYear() < 1970) {
@@ -128,7 +127,6 @@ server.get('/puzzle',function(req,res){
 											await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $4 WHERE user_id = $2',[0,inf.rows[0].user_id,now]);	
 											await res.render('win',{nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])});
 										}
-										console.log('WIIIIIIIIIIIIIIIIIIIN!!!!!!'); 
 										add_user_puzzle();
 									}
 									else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
@@ -170,6 +168,8 @@ server.get('/puzzle',function(req,res){
 								pool.query('SELECT hint_id FROM user_hint WHERE user_id = $1',[info.rows[0].user_id],(err,taked_hint) => {
 									hints = [];
 
+									info.rows[0].current_puzzle_time.setMinutes(info.rows[0].current_puzzle_time.getUTCMinutes()-info.rows[0].autoskip_minutes);
+
 									for (var i=0; i<hint.rows.length; i++) {
 										var ihint = {
 											id : hint.rows[i].hint_id,
@@ -179,7 +179,7 @@ server.get('/puzzle',function(req,res){
 
 										var hint_now = new Date();
 										var hint_end = info.rows[0].current_puzzle_time; 
-										hint_end.setMinutes(hint_end.getMinutes()+hint.rows[i].open_minutes);
+										hint_end.setUTCMinutes(hint_end.getUTCMinutes()+hint.rows[i].open_minutes);
 										
 										if (hint_end > hint_now) {
 											var hint_ans = new Date(end-now); 
@@ -189,10 +189,10 @@ server.get('/puzzle',function(req,res){
 										}
 										else {
 											var taked = false;
-											for (var j = 0; j < taked_hint.rows.length(); j++) {
+											for (var j = 0; j < taked_hint.rows.length; j++) {
 												if (hint.rows[i].hint_id == taked_hint.rows[j].hint_id) {
 													taked = true;
-													ihint.val = html;
+													ihint.val = hint.rows[i].html;
 													ihint.status = "display";
 												}
 											}
@@ -203,8 +203,10 @@ server.get('/puzzle',function(req,res){
 										}
 
 										hints.push(ihint);
+										info.rows[0].current_puzzle_time.setUTCMinutes(info.rows[0].current_puzzle_time.getUTCMinutes()-hint.rows[i].open_minutes);
 									}
 												
+
 									var pzl = {
 										title: info.rows[0].title,
 										html: info.rows[0].html,
@@ -310,6 +312,15 @@ server.post('/check_code/', urlencodedParser, function (req, res1) {
 		res1.redirect('/puzzle');
 	});
 })
+server.post('/take_hint', urlencodedParser, function (req, res) {
+	var cookies = new Cookies(req,res);
+	var now = new Date();
+	var puzzle_id = req.query.id;
+	pool.query('SELECT user_id FROM \"user\" WHERE nickname=$1',[cookies.get('nickname')],(err,user_info) => {
+		pool.query('INSERT INTO user_hint VALUES($1,$2,$3)',[user_info.rows[0].user_id,puzzle_id,now]);
+		res.redirect('/puzzle');
+	})
+})
 
 server.get('/quit',urlencodedParser, function (req, res) {
 	var cookies = new Cookies(req,res);
@@ -317,5 +328,5 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.listen(process.env.PORT,
+server.listen(8080,
     () => console.log('Server UP!'));

@@ -16,7 +16,7 @@ CREATE TABLE hint (
     puzzle_id int  NOT NULL,
     fine_minutes int  NOT NULL,
     open_minutes int  NOT NULL,
-    html varchar(50)  NOT NULL,
+    html varchar(100)  NOT NULL,
     CONSTRAINT hint_pk PRIMARY KEY (hint_id)
 );
 
