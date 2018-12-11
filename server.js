@@ -328,5 +328,5 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.listen(8080,
+server.listen(process.env.PORT,
     () => console.log('Server UP!'));
