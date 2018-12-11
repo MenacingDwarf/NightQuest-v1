@@ -1,0 +1,1 @@
+DROP TABLE "user",quest,puzzle,hint,answer,user_quest,user_answer,user_hint,user_puzzle

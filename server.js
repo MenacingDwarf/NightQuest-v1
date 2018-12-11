@@ -21,6 +21,7 @@ server.set('view engine', 'ejs');
 server.get('/',function(req,res){
 	var cookies = new Cookies(req,res);
 	var message = cookies.get('message');
+//	cookies.set('nickname','');
 	cookies.set('message','');
 	if (cookies.get('nickname') == undefined) {
 		pool.query('SELECT start_date FROM quest',(err,info) => {
@@ -43,7 +44,7 @@ server.get('/puzzle',function(req,res){
 	pool.query('SELECT user_quest.user_id,current_puzzle_id,title,html,autoskip_minutes,current_puzzle_time FROM user_quest,puzzle,\"user\" WHERE \"user\".nickname = $1 AND user_quest.user_id = \"user\".user_id AND puzzle_id = current_puzzle_id', [cookies.get('nickname')], (err,info) => {
 		pool.query('SELECT title,nickname FROM quest,"user" WHERE user_id = owner',(err,quest) => {
 			if (info.rows[0].current_puzzle_id == 0) {
-				res.render('win',{nickname: cookies.get('nickname')}); 
+				res.render('win',{nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])}); 
 			}
 			else pool.query('SELECT value FROM answer,puzzle WHERE puzzle.puzzle_id=$1 AND answer.puzzle_id = puzzle.puzzle_id',[info.rows[0].current_puzzle_id],(err,res1) => {
 				pool.query('SELECT value FROM answer,user_answer WHERE user_answer.user_id=$1 AND answer.answer_id = user_answer.answer_id', [info.rows[0].user_id],(err,res2) => {
@@ -76,12 +77,12 @@ server.get('/puzzle',function(req,res){
 									add_user_puzzle();
 								}
 								else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
+									
 									if (free.rows.length == 0) {
-										pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id], (err,result) => {
+										pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
 											var now = new Date();
 											var ans = new Date(now-inf.rows[0].current_puzzle_time);
 											var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
-											
 											const add_user_puzzle = async()=>{ 
 												await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
 												await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[result.rows[0].puzzle_id,inf.rows[0].user_id,now]);
@@ -130,7 +131,7 @@ server.get('/puzzle',function(req,res){
 									}
 									else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
 										if (free.rows.length == 0) {
-											pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id], (err,result) => {
+											pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
 												var now = new Date();
 												var ans = new Date(now-inf.rows[0].current_puzzle_time);
 												var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 

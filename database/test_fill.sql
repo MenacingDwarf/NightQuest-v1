@@ -6,6 +6,8 @@ INSERT INTO "quest"
 VALUES (DEFAULT,1,'Night Quest','04-12-18 12:00:00');
 COMMIT;
 
+INSERT INTO "puzzle" 
+VALUES(0,1,'Окончил квест','win',10000);
 INSERT INTO "puzzle"
 VALUES (DEFAULT,1,'Странный памятник','puzzles/1.html',120);
 INSERT INTO "puzzle"
@@ -80,5 +82,3 @@ VALUES (DEFAULT,5,0,15,'Одно из слов, полученное при пр
 INSERT INTO "hint"
 VALUES (DEFAULT,5,15,30,'ВСЕГЕИ - Всероссийский Геологический институт');
 COMMIT;
-
-
