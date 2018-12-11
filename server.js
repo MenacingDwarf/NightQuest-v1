@@ -274,7 +274,7 @@ server.post('/register/', urlencodedParser, function (req, res) {
 			res.redirect('/');
 		}
 		else {
-			pool.query('SELECT puzzle_id FROM puzzle WHERE puzzle_id NOT IN (SELECT current_puzzle_id FROM user_quest)',(err,free) => {
+			pool.query('SELECT puzzle_id FROM puzzle WHERE puzzle_id NOT IN (SELECT current_puzzle_id FROM user_quest) AND NOT puzzle_id = 0',(err,free) => {
 				if (free.rows.length < 2) {
 					cookies.set('message','no places');
 					res.redirect('/');

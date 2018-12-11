@@ -3,7 +3,7 @@ INSERT INTO "user"
 VALUES (DEFAULT,'MenacingDwarf','jndfksdpv');
 COMMIT;
 INSERT INTO "quest"
-VALUES (DEFAULT,1,'Night Quest','04-12-18 12:00:00');
+VALUES (DEFAULT,1,'Night Quest','12-11-18 13:10:00');
 COMMIT;
 
 INSERT INTO "puzzle" 
