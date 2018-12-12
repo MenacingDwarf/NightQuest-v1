@@ -63,7 +63,7 @@ server.get('/puzzle',function(req,res){
 					}
 					if (res1.rows.length == right_ans_num)
 						pool.query('SELECT user_quest.user_id,quest_id,current_puzzle_id,current_puzzle_time FROM user_quest,\"user\" WHERE \"user\".nickname = $1 AND user_quest.user_id = \"user\".user_id',[cookies.get('nickname')],(err,inf) => {
-							pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 GROUP BY puzzle_id',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id],(err,remain) => {
+							pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND NOT puzzle_id = 0 GROUP BY puzzle_id',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id],(err,remain) => {
 								if (remain.rows.length == 0) { 
 									var now = new Date();
 									var ans = new Date(now-inf.rows[0].current_puzzle_time);
@@ -76,10 +76,10 @@ server.get('/puzzle',function(req,res){
 									}
 									add_user_puzzle();
 								}
-								else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
+								else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = 0 GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
 									
 									if (free.rows.length == 0) {
-										pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
+										pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND NOT puzzle_id = 0AND NOT puzzle_id = 0 AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
 											var now = new Date();
 											var ans = new Date(now-inf.rows[0].current_puzzle_time);
 											var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
@@ -116,7 +116,7 @@ server.get('/puzzle',function(req,res){
 						var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 						if (ans.getUTCFullYear() < 1970) {
 							pool.query('SELECT user_quest.user_id,quest_id,current_puzzle_id,current_puzzle_time FROM user_quest,\"user\" WHERE \"user\".nickname = $1 AND user_quest.user_id = \"user\".user_id',[cookies.get('nickname')],(err,inf) => {
-								pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 GROUP BY puzzle_id',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id],(err,remain) => {
+								pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = 0 AND NOT puzzle_id = $2 GROUP BY puzzle_id',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id],(err,remain) => {
 									if (remain.rows.length == 0) { 
 										var now = new Date();
 										var ans = new Date(now-inf.rows[0].current_puzzle_time);
@@ -129,9 +129,9 @@ server.get('/puzzle',function(req,res){
 										}
 										add_user_puzzle();
 									}
-									else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
+									else pool.query('SELECT puzzle_id FROM puzzle WHERE NOT puzzle_id IN (SELECT puzzle_id FROM puzzle,user_quest WHERE puzzle_id = current_puzzle_id GROUP BY puzzle_id) AND NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = 0 GROUP BY puzzle_id',[inf.rows[0].user_id],(err,free) => {
 										if (free.rows.length == 0) {
-											pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
+											pool.query('SELECT puzzle_id FROM puzzle,user_quest WHERE NOT puzzle_id IN (SELECT puzzle_id FROM user_puzzle WHERE user_id = $1) AND NOT puzzle_id = $2 AND puzzle_id = current_puzzle_id AND current_puzzle_time = (SELECT min(current_puzzle_time) AND NOT puzzle_id = 0 FROM user_quest)',[info.rows[0].user_id,inf.rows[0].current_puzzle_id], (err,result) => {
 												var now = new Date();
 												var ans = new Date(now-inf.rows[0].current_puzzle_time);
 												var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
