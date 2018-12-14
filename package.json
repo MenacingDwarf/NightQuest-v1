@@ -4,7 +4,7 @@
   "description": "В данном проекте будет реализован сайт для мероприятия NightQuest. Данный проект разрабатывает в рамках курса \"Web-технологии\"",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
   "repository": {
@@ -19,12 +19,18 @@
   "homepage": "https://github.com/MenacingDwarf/NightQuest#readme",
   "dependencies": {
     "bcrypt": "^3.0.2",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "cookies": "^0.7.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "http": "0.0.0",
     "jasmine": "^3.3.0",
     "pg": "^7.6.1",
-    "pusher": "^2.1.3"
+    "pusher": "^2.1.3",
+    "request": "^2.88.0",
+    "should": "^13.2.3",
+    "supertest": "^3.3.0"
   },
   "devDependencies": {},
   "engines": {

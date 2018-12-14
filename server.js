@@ -31,7 +31,7 @@ server.get('/',function(req,res){
 				var ans = new Date(info.rows[0].start_date-now);
 				var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds());
 			}
-			res.render('start_page', {message: message,start: rem});
+			res.status(200).render('start_page', {message: message,start: rem});
 		})
 	}
     else {
@@ -329,5 +329,7 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.listen(process.env.PORT,
+server.listen(8080,
     () => console.log('Server UP!'));
+
+module.exports = server;

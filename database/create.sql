@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2018-12-01 10:04:30.454
+-- Last modification date: 2018-12-14 19:22:28.922
 
 -- tables
 -- Table: answer
@@ -43,7 +43,7 @@ CREATE TABLE quest (
 CREATE TABLE "user" (
     user_id serial  NOT NULL,
     nickname varchar(50)  NOT NULL,
-    password varchar(100) NOT NULL,
+    password varchar(100)  NOT NULL,
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );
 
@@ -65,8 +65,8 @@ CREATE TABLE user_hint (
 
 -- Table: user_puzzle
 CREATE TABLE user_puzzle (
-    puzzle_id int  NOT NULL,
     user_id int  NOT NULL,
+    puzzle_id int  NOT NULL,
     time time  NOT NULL,
     CONSTRAINT user_puzzle_pk PRIMARY KEY (user_id,puzzle_id)
 );
@@ -84,7 +84,8 @@ CREATE TABLE user_quest (
 -- Reference: answer_puzzle (table: answer)
 ALTER TABLE answer ADD CONSTRAINT answer_puzzle
     FOREIGN KEY (puzzle_id)
-    REFERENCES puzzle (puzzle_id)  
+    REFERENCES puzzle (puzzle_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -92,7 +93,8 @@ ALTER TABLE answer ADD CONSTRAINT answer_puzzle
 -- Reference: hint_puzzle (table: hint)
 ALTER TABLE hint ADD CONSTRAINT hint_puzzle
     FOREIGN KEY (puzzle_id)
-    REFERENCES puzzle (puzzle_id)  
+    REFERENCES puzzle (puzzle_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -100,7 +102,8 @@ ALTER TABLE hint ADD CONSTRAINT hint_puzzle
 -- Reference: puzzle_quest (table: puzzle)
 ALTER TABLE puzzle ADD CONSTRAINT puzzle_quest
     FOREIGN KEY (quest_id)
-    REFERENCES quest (quest_id)  
+    REFERENCES quest (quest_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -108,7 +111,8 @@ ALTER TABLE puzzle ADD CONSTRAINT puzzle_quest
 -- Reference: quest_user (table: quest)
 ALTER TABLE quest ADD CONSTRAINT quest_user
     FOREIGN KEY (owner)
-    REFERENCES "user" (user_id)  
+    REFERENCES "user" (user_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -116,7 +120,8 @@ ALTER TABLE quest ADD CONSTRAINT quest_user
 -- Reference: user_answer_answer (table: user_answer)
 ALTER TABLE user_answer ADD CONSTRAINT user_answer_answer
     FOREIGN KEY (answer_id)
-    REFERENCES answer (answer_id)  
+    REFERENCES answer (answer_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -124,7 +129,8 @@ ALTER TABLE user_answer ADD CONSTRAINT user_answer_answer
 -- Reference: user_answer_user (table: user_answer)
 ALTER TABLE user_answer ADD CONSTRAINT user_answer_user
     FOREIGN KEY (user_id)
-    REFERENCES "user" (user_id)  
+    REFERENCES "user" (user_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -132,7 +138,8 @@ ALTER TABLE user_answer ADD CONSTRAINT user_answer_user
 -- Reference: user_hint_hint (table: user_hint)
 ALTER TABLE user_hint ADD CONSTRAINT user_hint_hint
     FOREIGN KEY (hint_id)
-    REFERENCES hint (hint_id)  
+    REFERENCES hint (hint_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -140,7 +147,8 @@ ALTER TABLE user_hint ADD CONSTRAINT user_hint_hint
 -- Reference: user_hint_user (table: user_hint)
 ALTER TABLE user_hint ADD CONSTRAINT user_hint_user
     FOREIGN KEY (user_id)
-    REFERENCES "user" (user_id)  
+    REFERENCES "user" (user_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -148,7 +156,8 @@ ALTER TABLE user_hint ADD CONSTRAINT user_hint_user
 -- Reference: user_puzzle_puzzle (table: user_puzzle)
 ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_puzzle
     FOREIGN KEY (puzzle_id)
-    REFERENCES puzzle (puzzle_id)  
+    REFERENCES puzzle (puzzle_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -156,7 +165,17 @@ ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_puzzle
 -- Reference: user_puzzle_user (table: user_puzzle)
 ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_user
     FOREIGN KEY (user_id)
-    REFERENCES "user" (user_id)  
+    REFERENCES "user" (user_id)
+    ON DELETE  CASCADE  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: user_quest_puzzle (table: user_quest)
+ALTER TABLE user_quest ADD CONSTRAINT user_quest_puzzle
+    FOREIGN KEY (current_puzzle_id)
+    REFERENCES puzzle (puzzle_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -164,7 +183,8 @@ ALTER TABLE user_puzzle ADD CONSTRAINT user_puzzle_user
 -- Reference: user_quest_quest (table: user_quest)
 ALTER TABLE user_quest ADD CONSTRAINT user_quest_quest
     FOREIGN KEY (quest_id)
-    REFERENCES quest (quest_id)  
+    REFERENCES quest (quest_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -172,7 +192,8 @@ ALTER TABLE user_quest ADD CONSTRAINT user_quest_quest
 -- Reference: user_quest_user (table: user_quest)
 ALTER TABLE user_quest ADD CONSTRAINT user_quest_user
     FOREIGN KEY (user_id)
-    REFERENCES "user" (user_id)  
+    REFERENCES "user" (user_id)
+    ON DELETE  CASCADE  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
