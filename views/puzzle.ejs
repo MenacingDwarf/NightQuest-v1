@@ -49,7 +49,7 @@
 				<form action="/check_code/" method="post">
 					<div class="form-group">
 	    				<label for="code-field">Поле для ввода кодов:</label>
-				    	<input type="text" class="form-control" id="code-field" name="code" placeholder="Введите найденный код">
+				    	<input type="text" pattern="[A-Za-z0-9]{3,20}" class="form-control" id="code-field" name="code" placeholder="Введите найденный код">
 				    	<small class="form-text text-secondary">Не более 1 попытки за 2 с</small>
 				  	</div>
 				  	<button type="submit" class="btn btn-primary mb-2">Проверить</button>

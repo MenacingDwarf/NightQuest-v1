@@ -48,7 +48,7 @@ describe('Night Quest tests', () => {
 		  		})
 		});
 
-		it('should be able to logging in players', (done) => {
+		it('should be able to log in correct players', (done) => {
 			chai.request(url)
 		  		.post('/login/')
 		  		.type('form')
@@ -60,6 +60,21 @@ describe('Night Quest tests', () => {
 		  		.end((err,res) => {
 		  			res.should.have.status(200);
 		  			expect(res).to.redirectTo(url+'/puzzle');
+		  			done();
+		  		})
+		});
+
+		it('should forbid logging in incorrect players', (done) => {
+			chai.request(url)
+		  		.post('/login/')
+		  		.type('form')
+		  		.send({
+		  			'nickname': 'Mishanyna',
+		  			'password': 'nigga1488'
+		  		})
+		  		.end((err,res) => {
+		  			res.should.have.status(200);
+		  			expect(res).to.redirectTo(url+'/');
 		  			done();
 		  		})
 		});
