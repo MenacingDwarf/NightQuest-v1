@@ -70,7 +70,7 @@ server.get('/puzzle',function(req,res){
 									var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 									
 									const add_user_puzzle = async()=>{ 
-										await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+										await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 										await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[0,inf.rows[0].user_id,now]);	
 										await res.render('win',{nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])});
 									}
@@ -84,7 +84,7 @@ server.get('/puzzle',function(req,res){
 											var ans = new Date(now-inf.rows[0].current_puzzle_time);
 											var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 											const add_user_puzzle = async()=>{ 
-												await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+												await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 												await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[result.rows[0].puzzle_id,inf.rows[0].user_id,now]);
 												await res.redirect('/puzzle');
 											}
@@ -98,7 +98,7 @@ server.get('/puzzle',function(req,res){
 										var ans = new Date(now-inf.rows[0].current_puzzle_time);
 										var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 										const add_user_puzzle = async()=>{ 
-											await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+											await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 											await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[new_id,inf.rows[0].user_id,now]);
 											await res.redirect('/puzzle');
 										}
@@ -123,7 +123,7 @@ server.get('/puzzle',function(req,res){
 										var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 										
 										const add_user_puzzle = async()=>{ 
-											await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+											await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 											await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $4 WHERE user_id = $2',[0,inf.rows[0].user_id,now]);	
 											await res.render('win',{nickname: cookies.get('nickname'),quest: JSON.stringify(quest.rows[0])});
 										}
@@ -137,7 +137,7 @@ server.get('/puzzle',function(req,res){
 												var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 												
 												const add_user_puzzle = async()=>{ 
-													await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+													await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 													await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[result.rows[0].puzzle_id,inf.rows[0].user_id,now]);
 													await res.redirect('/puzzle');
 												}
@@ -152,7 +152,7 @@ server.get('/puzzle',function(req,res){
 											var rem = (ans.getUTCHours()<10 ? '0'+ans.getUTCHours() : ans.getUTCHours()) + ':'+(ans.getUTCMinutes()<10 ? '0' + ans.getUTCMinutes() : ans.getUTCMinutes())+':'+ (ans.getUTCSeconds()<10 ? '0'+ans.getUTCSeconds() : ans.getUTCSeconds()); 
 											
 											const add_user_puzzle = async()=>{ 
-												await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].current_puzzle_id,inf.rows[0].user_id,rem]);
+												await pool.query('INSERT INTO user_puzzle VALUES($1,$2,$3)',[inf.rows[0].user_id,inf.rows[0].current_puzzle_id,rem]);
 												await pool.query('UPDATE user_quest SET current_puzzle_id = $1,current_puzzle_time = $3 WHERE user_id = $2',[new_id,inf.rows[0].user_id,now]);
 												await res.redirect('/puzzle');
 											}
@@ -329,7 +329,7 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.listen(process.env.PORT,
+server.listen(8080,
     () => console.log('Server UP!'));
 
 module.exports = server;
