@@ -49,19 +49,21 @@ describe('Night Quest tests', () => {
 		});
 
 		it('should be able to log in correct players', (done) => {
-			chai.request(url)
-		  		.post('/login/')
-		  		.type('form')
-		  		.set('Cookie','nickname=Mishanya')
-		  		.send({
-		  			'nickname': 'Mishanya',
-		  			'password': 'nigga228'
-		  		})
-		  		.end((err,res) => {
-		  			res.should.have.status(200);
-		  			expect(res).to.redirectTo(url+'/puzzle');
-		  			done();
-		  		})
+			pool.query('SELECT password FROM \"user\" WHERE nickname = \'Mishanya\'',(err,pass) => {
+				chai.request(url)
+			  		.post('/login/')
+			  		.type('form')
+			  		.set('Cookie','nickname=Mishanya;password='+pass.rows[0].password)
+			  		.send({
+			  			'nickname': 'Mishanya',
+			  			'password': 'nigga228'
+			  		})
+			  		.end((err,res) => {
+			  			res.should.have.status(200);
+			  			expect(res).to.redirectTo(url+'/puzzle');
+			  			done();
+			  		})
+		  	})
 		});
 
 		it('should forbid logging in incorrect players', (done) => {
@@ -82,66 +84,73 @@ describe('Night Quest tests', () => {
 
 
 	describe('Puzzle page', () => {
+
 		it('should load with status 200', (done) => {
-			chai.request(url)
-		  		.get('/puzzle')
-		  		.set('Cookie','nickname=Mishanya')
-		  		.end((err,res) => {
-		  			res.should.have.status(200);
-		  			done();
-		  		})
+			pool.query('SELECT password FROM \"user\" WHERE nickname = \'Mishanya\'',(err,pass) => {
+				chai.request(url)
+			  		.get('/puzzle')
+			  		.set('Cookie','nickname=Mishanya;password='+pass.rows[0].password)
+			  		.end((err,res) => {
+			  			res.should.have.status(200);
+			  			done();
+			  		})
+			});
 		});
 
 		it('should be able to check wrong player codes', (done) => {
-			chai.request(url)
-		  		.post('/check_code/')
-		  		.type('form')
-		  		.set('Cookie','nickname=Mishanya')
-		  		.send({
-		  			'code': 'ans1'
-		  		})
-		  		.end((err,res) => {
-		  			res.should.have.status(200);
-		  			expect(res).to.redirectTo(url+'/puzzle');
-
-		  			pool.query('SELECT answer_id \
-		  						FROM \"user\", user_answer \
-		  						WHERE nickname=\'Mishanya\' \
-		  						AND user_answer.user_id = \"user\".user_id',(err,dbres) => {
-		  				dbres.rows.length.should.equal(0);
-		  			})
-
-		  			done();
-		  		})
-		});
-
-		it('should be able to check right player codes', (done) => {
-			pool.query('SELECT value \
-						FROM answer,user_quest,\"user\" \
-						WHERE nickname = \'Mishanya\' \
-						AND \"user\".user_id = user_quest.user_id \
-						AND user_quest.current_puzzle_id = answer.puzzle_id',(err,answers) => {
+			pool.query('SELECT password FROM \"user\" WHERE nickname = \'Mishanya\'',(err,pass) => {
 				chai.request(url)
 			  		.post('/check_code/')
 			  		.type('form')
-			  		.set('Cookie','nickname=Mishanya')
+			  		.set('Cookie','nickname=Mishanya;password='+pass.rows[0].password)
 			  		.send({
-			  			'code': answers.rows[0].value
+			  			'code': 'ans1'
 			  		})
 			  		.end((err,res) => {
 			  			res.should.have.status(200);
 			  			expect(res).to.redirectTo(url+'/puzzle');
 
-						pool.query('SELECT answer_id \
+			  			pool.query('SELECT answer_id \
 			  						FROM \"user\", user_answer \
 			  						WHERE nickname=\'Mishanya\' \
 			  						AND user_answer.user_id = \"user\".user_id',(err,dbres) => {
-			  				dbres.rows.length.should.not.equal(0);
+			  				dbres.rows.length.should.equal(0);
 			  			})
 
 			  			done();
 			  		})
 		  	});
+		});
+
+		it('should be able to check right player codes', (done) => {
+			pool.query('SELECT password FROM \"user\" WHERE nickname = \'Mishanya\'',(err,pass) => {
+				pool.query('SELECT value \
+							FROM answer,user_quest,\"user\" \
+							WHERE nickname = \'Mishanya\' \
+							AND \"user\".user_id = user_quest.user_id \
+							AND user_quest.current_puzzle_id = answer.puzzle_id',(err,answers) => {
+					chai.request(url)
+				  		.post('/check_code/')
+				  		.type('form')
+				  		.set('Cookie','nickname=Mishanya;password='+pass.rows[0].password)
+				  		.send({
+				  			'code': answers.rows[0].value
+				  		})
+				  		.end((err,res) => {
+				  			res.should.have.status(200);
+				  			expect(res).to.redirectTo(url+'/puzzle');
+
+							pool.query('SELECT answer_id \
+				  						FROM \"user\", user_answer \
+				  						WHERE nickname=\'Mishanya\' \
+				  						AND user_answer.user_id = \"user\".user_id',(err,dbres) => {
+				  				dbres.rows.length.should.not.equal(0);
+				  			})
+
+				  			done();
+				  		})
+			  	});
+			});
 		});
 	});
 
