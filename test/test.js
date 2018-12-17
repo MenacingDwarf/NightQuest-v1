@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../server');
@@ -7,11 +9,11 @@ process.env.PORT = 8080;
 
 const { Pool } = require('pg');
 const pool = new Pool({
-	user: 'aavgdgndyqmhtw',
-	password: 'ffcba5c70e3b5afc6c5900a4f4966810bd39323002d830894b4faa00172f79a7',
-	host: 'ec2-54-247-119-167.eu-west-1.compute.amazonaws.com',
-	port: 5432,
-	database: 'dt404up8a62dd',
+	user: process.env.PGUSER,
+	password: process.env.PGPASSWORD,
+	host: process.env.PGHOST,
+	port: process.env.PGPORT,
+	database: process.env.PGDATABASE,
 	ssl: true,
 })
 
@@ -43,8 +45,8 @@ describe('Night Quest tests', () => {
 
 		  			pool.query('SELECT user_quest.user_id FROM \"user\", user_quest WHERE nickname=\'Mishanya\'',(err,dbres) => {
 		  				dbres.rows.length.should.not.equal(0);
+		  				done();
 		  			})
-		  			done();
 		  		})
 		});
 
@@ -115,9 +117,8 @@ describe('Night Quest tests', () => {
 			  						WHERE nickname=\'Mishanya\' \
 			  						AND user_answer.user_id = \"user\".user_id',(err,dbres) => {
 			  				dbres.rows.length.should.equal(0);
+			  				done();
 			  			})
-
-			  			done();
 			  		})
 		  	});
 		});
@@ -145,9 +146,8 @@ describe('Night Quest tests', () => {
 				  						WHERE nickname=\'Mishanya\' \
 				  						AND user_answer.user_id = \"user\".user_id',(err,dbres) => {
 				  				dbres.rows.length.should.not.equal(0);
+				  				done();
 				  			})
-
-				  			done();
 				  		})
 			  	});
 			});
