@@ -335,6 +335,13 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
+server.post('/check_matrix', urlencodedParser, (req, res) => {
+	answer = [[0,90],[180,90]];
+	if (req.body.matrix === answer)
+		res.send(true);
+	else res.send(false);
+})
+
 server.listen(process.env.PORT,
     () => console.log('Server UP!'));
 
