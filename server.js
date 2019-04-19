@@ -344,7 +344,7 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 		res.send(JSON.stringify({'result': true, 'text': 'Похоже, вы отлично справляетесь с трубами. Но есть парень, который делает это лучше, вам поможет Леонид Зиновьев!'
 								 'image': 'http://d1.endata.cx/data/games/65192/JIBRz-H9QIw.jpg'}))
 	}
-	else res.send(JSON.stringify({'result': false))
+	else res.send(JSON.stringify({'result': false}))
 })
 
 server.listen(process.env.PORT,
