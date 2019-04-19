@@ -363,6 +363,12 @@ server.post('/check_piano', urlencodedParser, (req, res) => {
 	else res.send({'result': 'not ok', 'clicked': clicked})
 })
 
+server.get('/check_piano', (req,res) =>{
+	let clicked = req.query.clicked;
+	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok', 'clicked': clicked});
+	else res.send({'result': 'not ok', 'clicked': clicked})
+})
+
 server.listen(process.env.PORT,
     () => console.log('Server UP!'));
 
