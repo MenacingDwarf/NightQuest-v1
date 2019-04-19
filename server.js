@@ -22,6 +22,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 server.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Content-Type", "application/json");
   next();
 });
 server.set('view engine', 'ejs');
@@ -343,14 +344,6 @@ server.get('/quit',urlencodedParser, function (req, res) {
 
 server.post('/check_matrix', urlencodedParser, (req, res) => {
 	matrix = req.body.matrix;
-	res.set({
-	  "Accept": "application/json",
-	  "Content-Type": "application/json",
-	  "Access-Control-Allow-Origin": "*",
-	  "X-Requested-With": "XMLHttpRequest",
-	  "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-	  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-	});
 	// Проверка на правильность матрицы
 	if (matrix[0][0] == 180 && matrix[1][0] == 0 && matrix[1][1] == 270 && matrix[0][1] == 90 && matrix[0][2] == 180 && (matrix[1][2] == 90 || matrix[1][2] == 270) 
 				&& (matrix[2][2] == 90 || matrix[2][2] == 270) && matrix[3][2] == 270 && (matrix[3][1] == 0 || matrix[3][1] == 180) && matrix[3][0] == 90 && matrix[4][0] == 0
