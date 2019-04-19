@@ -336,6 +336,7 @@ server.get('/quit',urlencodedParser, function (req, res) {
 })
 
 server.post('/check_matrix', urlencodedParser, (req, res) => {
+	matrix = req.body.matrix;
 	if (matrix[0][0] == 180 && matrix[1][0] == 0 && matrix[1][1] == 270 && matrix[0][1] == 90 && matrix[0][2] == 180 && (matrix[1][2] == 90 || matrix[1][2] == 270) 
 				&& (matrix[2][2] == 90 || matrix[2][2] == 270) && matrix[3][2] == 270 && (matrix[3][1] == 0 || matrix[3][1] == 180) && matrix[3][0] == 90 && matrix[4][0] == 0
 				&& matrix[4][1] == 180 && matrix[5][1] == 0 && (matrix[5][2] == 0 || matrix[5][2] == 180) && matrix[5][3] == 270 && (matrix[4][3] == 90 || matrix[4][3] == 270)
