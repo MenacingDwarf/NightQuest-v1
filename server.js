@@ -19,7 +19,7 @@ const pool = new Pool({
 
 server = express();
 server.use(express.static(path.join(__dirname, 'public')));
-server.use(cors());
+// server.use(cors());
 server.set('view engine', 'ejs');
 
 server.get('/',function(req,res){
