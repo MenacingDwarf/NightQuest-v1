@@ -359,7 +359,7 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 })
 
 server.post('/check_piano', urlencodedParser, (req, res) => {
-	answer = [];
+	console.log(req.body);
 	let clicked = req.body.clicked;
 	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok', 'clicked': clicked});
 	else res.send({'result': 'not ok', 'clicked': clicked})
