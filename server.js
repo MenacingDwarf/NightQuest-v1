@@ -349,7 +349,7 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 	else res.send({'result': false})
 })
 
-server.post('/check_matrix', urlencodedParser, (req, res) => {
+server.post('/check_piano', urlencodedParser, (req, res) => {
 	answer = [];
 	clicked = req.body.clicked;
 	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok'});
