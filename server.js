@@ -360,8 +360,16 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 })
 
 server.post('/check_piano', urlencodedParser, (req, res) => {
-	console.log(req);
-	let clicked = req.clicked;
+	console.log(req.body);
+	res.set({
+	  "Accept": "application/json",
+	  "Content-Type": "application/json",
+	  "Access-Control-Allow-Origin": "*",
+	  "X-Requested-With": "XMLHttpRequest",
+	  "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+	  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+	});
+	let clicked = req.body.clicked;
 	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok', 'clicked': clicked});
 	else res.send({'result': 'not ok', 'clicked': clicked})
 })
