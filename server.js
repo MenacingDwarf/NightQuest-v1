@@ -342,10 +342,10 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 				&& matrix[4][1] == 180 && matrix[5][1] == 0 && (matrix[5][2] == 0 || matrix[5][2] == 180) && matrix[5][3] == 270 && (matrix[4][3] == 90 || matrix[4][3] == 270)
 				&& matrix[3][3] == 90 && matrix[3][4] == 270 && matrix[2][4] == 90 && matrix[2][5] == 180 && matrix[3][5] == 0 && matrix[3][6] == 180
 				&& (matrix[4][6] == 90 || matrix[4][6] == 270) && matrix[5][6] == 0 && matrix[5][7] == 270 && matrix[4][7] == 90) {
-		res.send(JSON.stringify({'result': true, 'text': 'Похоже, вы отлично справляетесь с трубами. Но есть парень, который делает это лучше, вам поможет Леонид Зиновьев!'
-								 'image': 'http://d1.endata.cx/data/games/65192/JIBRz-H9QIw.jpg'}))
+		res.send({'result': true, 'text': 'Похоже, вы отлично справляетесь с трубами. Но есть парень, который делает это лучше, вам поможет Леонид Зиновьев!'
+								 'image': 'http://d1.endata.cx/data/games/65192/JIBRz-H9QIw.jpg'})
 	}
-	else res.send(JSON.stringify({'result': false}))
+	else res.send({'result': false})
 })
 
 server.listen(process.env.PORT,
