@@ -337,7 +337,7 @@ server.get('/quit',urlencodedParser, function (req, res) {
 
 server.post('/check_matrix', urlencodedParser, (req, res) => {
 	matrix = req.body.matrix;
-	res.set.({
+	res.set({
 	  "Accept": "application/json",
 	  "Access-Control-Allow-Origin": "http://78.en.cx",
 	  "X-Requested-With": "XMLHttpRequest",
