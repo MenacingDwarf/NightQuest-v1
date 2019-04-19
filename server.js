@@ -339,7 +339,7 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 	matrix = req.body.matrix;
 	res.set({
 	  "Accept": "application/json",
-	  "Access-Control-Allow-Origin": "http://78.en.cx",
+	  "Access-Control-Allow-Origin": "*",
 	  "X-Requested-With": "XMLHttpRequest",
 	  "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
 	  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
