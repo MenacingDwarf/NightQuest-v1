@@ -4,6 +4,7 @@ const express = require('express');
 var Cookies = require('cookies');
 var path = require('path');
 var bodyParser = require("body-parser");
+var cors = require("cors");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var message = "";
 const { Pool } = require('pg');
@@ -18,6 +19,7 @@ const pool = new Pool({
 
 server = express();
 server.use(express.static(path.join(__dirname, 'public')));
+server.use(cors());
 server.set('view engine', 'ejs');
 
 server.get('/',function(req,res){
