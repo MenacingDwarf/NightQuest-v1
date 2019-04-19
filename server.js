@@ -354,7 +354,7 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 	clicked = req.body.clicked;
 	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok'});
 	else res.send({'result': 'not ok'})
-}
+})
 
 server.listen(process.env.PORT,
     () => console.log('Server UP!'));
