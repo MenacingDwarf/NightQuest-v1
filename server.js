@@ -351,9 +351,9 @@ server.get('/check_matrix', (req, res) => {
 			  [0,0,0,0,0,0,0,0]];
 
     let lines = req.query.matrix.split(';');
-	for (let i; i<6; i++) {
+	for (let i = 0; i<6; i++) {
 		let line = lines[i].split(',');
-		for (let j; j<8; j++)
+		for (let j = 0; j<8; j++)
 			matrix[i][j] = parseInt(line[j]);
 	}
 	// Проверка на правильность матрицы
