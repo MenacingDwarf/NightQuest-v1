@@ -343,16 +343,18 @@ server.get('/quit',urlencodedParser, function (req, res) {
 })
 
 server.get('/check_matrix', (req, res) => {
-	matrix = [[0,0,0,0,0,0,0,0],
+	let matrix = [[0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0]];
 
+    let lines = req.query.matrix.split(';');
 	for (let i; i<6; i++)
+		let line = lines[i].split(',');
 		for (let j; j<8; j++)
-			matrix[i][j] = parseInt(req.query.matrix[i*8+j]);
+			matrix[i][j] = parseInt(line[j]);
 	// Проверка на правильность матрицы
 	if (matrix[0][0] == 180 && matrix[1][0] == 0 && matrix[1][1] == 270 && matrix[0][1] == 90 && matrix[0][2] == 180 && (matrix[1][2] == 90 || matrix[1][2] == 270) 
 				&& (matrix[2][2] == 90 || matrix[2][2] == 270) && matrix[3][2] == 270 && (matrix[3][1] == 0 || matrix[3][1] == 180) && matrix[3][0] == 90 && matrix[4][0] == 0
