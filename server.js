@@ -342,8 +342,17 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.post('/check_matrix', urlencodedParser, (req, res) => {
-	matrix = req.body.matrix;
+server.get('/check_matrix', urlencodedParser, (req, res) => {
+	matrix = [[0,0,0,0,0,0,0,0],
+			  [0,0,0,0,0,0,0,0],
+			  [0,0,0,0,0,0,0,0],
+			  [0,0,0,0,0,0,0,0],
+			  [0,0,0,0,0,0,0,0],
+			  [0,0,0,0,0,0,0,0]];
+
+	for (let i; i<6; i++)
+		for (let j; j<8; j++)
+			matrix[i][j] = parseInt(req.query.matrix[i*8+j]);
 	// Проверка на правильность матрицы
 	if (matrix[0][0] == 180 && matrix[1][0] == 0 && matrix[1][1] == 270 && matrix[0][1] == 90 && matrix[0][2] == 180 && (matrix[1][2] == 90 || matrix[1][2] == 270) 
 				&& (matrix[2][2] == 90 || matrix[2][2] == 270) && matrix[3][2] == 270 && (matrix[3][1] == 0 || matrix[3][1] == 180) && matrix[3][0] == 90 && matrix[4][0] == 0
@@ -351,21 +360,14 @@ server.post('/check_matrix', urlencodedParser, (req, res) => {
 				&& matrix[3][3] == 90 && matrix[3][4] == 270 && matrix[2][4] == 90 && matrix[2][5] == 180 && matrix[3][5] == 0 && matrix[3][6] == 180
 				&& (matrix[4][6] == 90 || matrix[4][6] == 270) && matrix[5][6] == 0 && matrix[5][7] == 270 && matrix[4][7] == 90) {
 		res.send({'result': true, 'text': 'Похоже, вы отлично справляетесь с трубами. Но есть парень, который делает это лучше, вам поможет Леонид Зиновьев!',
-								 'image': 'http://d1.endata.cx/data/games/65192/JIBRz-H9QIw.jpg'})
+								  'image': 'http://d1.endata.cx/data/games/65192/JIBRz-H9QIw.jpg'})
 	}
 	else res.send({'result': false})
 })
 
-server.post('/check_piano', urlencodedParser, (req, res) => {
-	console.log(req.body);
-	let clicked = req.body.clicked;
-	if (clicked[clicked.length-1] == "D") res.send({'result': 'ok', 'clicked': clicked});
-	else res.send({'result': 'not ok', 'clicked': clicked})
-})
-
 server.get('/check_piano', (req,res) =>{
 	let clicked = req.query.clicked;
-	if (clicked.slice(-6) == "CEFEAC") res.send({result: 'ok', coords: '59.898058, 30.285438'});
+	if (clicked.slice(-6) == "CEFEAC") res.send({result: 'ok', coords: '59.904660, 30.274925'});
 	else res.send({result: 'not ok'})
 })
 
