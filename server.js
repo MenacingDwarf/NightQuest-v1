@@ -342,7 +342,7 @@ server.get('/quit',urlencodedParser, function (req, res) {
 	res.redirect('/');
 })
 
-server.get('/check_matrix', urlencodedParser, (req, res) => {
+server.get('/check_matrix', (req, res) => {
 	matrix = [[0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
 			  [0,0,0,0,0,0,0,0],
